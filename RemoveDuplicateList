@@ -1,0 +1,47 @@
+#!usr/env/bin python3
+# -*- coding:utf-8 -*-
+
+__Author__ = 'FyF'
+# 2018/03/19
+
+class RemoveDuplicateList(list):
+    """
+    根据key去除重复的List
+    """
+
+    def __init__(self,iterable=None):
+        """
+        :param iterable: 可迭代对象
+        """
+        self.iterable = list(iterable)
+        self.duplicate_element_list = set()
+        self.remove_duplicate_list = []
+        super().__init__(iterable)
+
+
+    def _duplicate(self,element):
+        """
+        将指定的元素进行重复检测
+        :param element:  被检查元素
+        :return: bool
+        """
+        if element not in self.duplicate_element_list:
+            self.duplicate_element_list.add(element)
+            return False
+        else:
+            return True
+
+
+    def duplicate(self,key):
+        """
+        根据key所给出的函数或者表达式,计算是否重复
+
+        :param key: 用于判断是否重复的依据,使用lamdba函数来指定对象地址
+         duplicate(key = lambda x:x[1])
+
+        """
+        if callable(key) :
+            for p_object in self:
+                element = key(p_object)
+                if bool(element) and  not self._duplicate(element):
+                    self.remove_duplicate_list.append(p_object)
